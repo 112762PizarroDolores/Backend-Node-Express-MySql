@@ -11,3 +11,5 @@
 // db.configure(config)
 // module.exports=connectiondb
 
+// BD MYSQL COMENCEMOS!
+
