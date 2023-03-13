@@ -26,8 +26,15 @@ const createEmployee = async (values)=>{
    return result
 }
 
-
-module.exports = {findAllEmployees: findAllEmployees,
-    findById : findById,
-    createEmployee : createEmployee}
+const deleteEmployee = async (id_employee)=>{
+    const sqlQuery=`DELETE FROM employees WHERE id_employee = ${id_employee}`
+    console.log(sqlQuery)
+    const result= await connectiondb.query(sqlQuery).spread((result)=>result)
+    return result
+ }
+ 
+module.exports = {findAllEmployees,
+    findById,
+    createEmployee,
+    deleteEmployee}
 

@@ -1,4 +1,5 @@
 //CRUD
+const connectiondb = require('../config/db.config');
 const conexion= require ('../config/db.config');
 const EmployeesModel= require('../models/employee.model');
 //obtener employees
@@ -28,8 +29,18 @@ const createEmployee = async (req, res) => {
     // const employee= await employeModel.findById(insertId)
     res.status(201).json({ data: result });
 };
+
+//nuevo!
+const deleteEmployee = async (req, res) => {
+//extraigo el id del empleado a borrar
+const id_employee=req.params.id_employee;
+const result = await EmployeesModel.deleteEmployee(id_employee)
+res.status(200).json({ message: 'the employee was deleted succesfully!' });//DOLO REVISA EL ESTADO!!!
+} 
+
      module.exports={
     findAllEmployees: obtenerEmployees,
     createEmployee:createEmployee,
-    getEmployeById:getEmployeById
+    getEmployeById:getEmployeById,
+    deleteEmployee: deleteEmployee
 }
