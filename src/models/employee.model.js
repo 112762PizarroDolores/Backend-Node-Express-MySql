@@ -7,10 +7,6 @@ const rows = await connectiondb.query('SELECT*FROM employees e').spread((rows)=>
 return rows
 }
 
-
-
-
-
 const findById = async (id_employee)=>{
     const row = await  connectiondb.query("SELECT * FROM  employees e WHERE e.id_employee = ? ", [id_employee]).spread(row=>row)
     return row.length>0 ? row[0] : []
@@ -19,22 +15,32 @@ const findById = async (id_employee)=>{
 // 
 // conexion.query es un metodo js que recibe dos parametros, 1p- consulta a la db, 2p-arreglo con los valores que deseo insertar una consulta a la base de datos
 // .spread le permite a un array o cadena de texto ser expandido, donde 
+//CREATE
 const createEmployee = async (values)=>{
    const  {first_name, last_name, cuit, team_id, join_date, rol} = values
    const  result= await connectiondb.query('INSERT INTO employees(first_name, last_name, cuit, team_id, join_date, rol) values(?,?,?,?,?,?)',
    [first_name, last_name, cuit, team_id, join_date, rol]).spread((result)=>result)
    return result
 }
-
+//DELETE
 const deleteEmployee = async (id_employee)=>{
     const sqlQuery=`DELETE FROM employees WHERE id_employee = ${id_employee}`
     console.log(sqlQuery)
     const result= await connectiondb.query(sqlQuery).spread((result)=>result)
     return result
  }
- 
+ //UPDATE
+ const updateEmployee = async (id_employee, values)=>{
+    const  {first_name, last_name, cuit, team_id, join_date, rol} = values
+    
+    const sqlQuery=`UPDATE employees SET first_name=?, last_name=?, cuit=?, team_id=?, join_date=?, rol=? WHERE id_employee = ${id_employee}`
+    const  result= await connectiondb.query(sqlQuery,[first_name, last_name, cuit, team_id, join_date, rol]).spread((result)=>result)
+    return result
+ }
+ //EXPORTS
 module.exports = {findAllEmployees,
     findById,
     createEmployee,
-    deleteEmployee}
+    deleteEmployee,
+updateEmployee}
 

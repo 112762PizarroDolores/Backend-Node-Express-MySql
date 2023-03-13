@@ -30,7 +30,7 @@ const createEmployee = async (req, res) => {
     res.status(201).json({ data: result });
 };
 
-//nuevo!
+//DELETE!
 const deleteEmployee = async (req, res) => {
 //extraigo el id del empleado a borrar
 const id_employee=req.params.id_employee;
@@ -38,9 +38,21 @@ const result = await EmployeesModel.deleteEmployee(id_employee)
 res.status(200).json({ message: 'the employee was deleted succesfully!' });//DOLO REVISA EL ESTADO!!!
 } 
 
+//UPDATE
+const updateEmployee = async (req, res) => {
+  //extraigo el id y body del empleado a actualizar
+  const values =  {...req.body};
+      const id_employee=req.params.id_employee;
+    //llamo a la funcion de mi model para hacer el update
+  const result = await EmployeesModel.updateEmployee(id_employee, values)
+  res.status(200).json({ message: 'the employee was updated succesfully!', result });//DOLO REVISA EL ESTADO!!!
+  } 
+  //EXPORT
+
      module.exports={
     findAllEmployees: obtenerEmployees,
     createEmployee:createEmployee,
     getEmployeById:getEmployeById,
-    deleteEmployee: deleteEmployee
+    deleteEmployee: deleteEmployee,
+    updateEmployee: updateEmployee
 }
