@@ -9,6 +9,27 @@ const obtenerEmployees= async (req,res)=>{
 };
 
 
-module.exports= {
-   findAllEmployees: obtenerEmployees
+//////
+const getEmployeById = async (req, res) => {
+  try {
+    const empleados = await req.body;
+    res.status(201).json({ data: empleados });
+  } catch (err) {
+    res.status(400).json({message: "ERROR ta todo mal viteh!"})
+  }
+};
+
+
+const createEmployee = async (req, res) => {
+    const values =  {...req.body};
+    const result = await EmployeesModel.createEmployee(values)
+    console.log(result)
+    // const {insertId}=result
+    // const employee= await employeModel.findById(insertId)
+    res.status(201).json({ data: result });
+};
+     module.exports={
+    findAllEmployees: obtenerEmployees,
+    createEmployee:createEmployee,
+    getEmployeById:getEmployeById
 }
