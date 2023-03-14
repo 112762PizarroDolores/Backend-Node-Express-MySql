@@ -9,26 +9,24 @@ const obtenerEmployees= async (req,res)=>{
     res.json({data: empleados});
 };
 
-
-//////
-const getEmployeById = async (req, res) => {
-  try {
-    const empleados = await req.body;
-    res.status(201).json({ data: empleados });
-  } catch (err) {
-    res.status(400).json({message: "ERROR ta todo mal viteh!"})
-  }
-};
-
-
+//CREATE
 const createEmployee = async (req, res) => {
-    const values =  {...req.body};
-    const result = await EmployeesModel.createEmployee(values)
-    console.log(result)
-    // const {insertId}=result
-    // const employee= await employeModel.findById(insertId)
-    res.status(201).json({ data: result });
+  const values =  {...req.body};
+  const result = await EmployeesModel.createEmployee(values)
+  console.log(result)
+  res.status(201).json({ data: result });
 };
+
+// FIND BY ID
+// const findEmployeeById = async (req, res) => {
+//    try {
+//     const employee = await EmployeesModel.findEmployeeById(insertId)
+//     res.status(201).json({ data: employee });
+  
+//   } catch (error) {
+//     res.status(500).json({error: "Something is wrong! Review..."})
+//   }
+// };
 
 //DELETE!
 const deleteEmployee = async (req, res) => {
@@ -46,13 +44,21 @@ const updateEmployee = async (req, res) => {
     //llamo a la funcion de mi model para hacer el update
   const result = await EmployeesModel.updateEmployee(id_employee, values)
   res.status(200).json({ message: 'the employee was updated succesfully!', result });//DOLO REVISA EL ESTADO!!!
+  }
+  //FIND BY ID
+const findEmployeeById = async (req, res) => {
+  //extraigo el id del empleado a borrar
+  const id_employee=req.params.id_employee;
+  const employee = await EmployeesModel.findById(id_employee)
+  res.status(200).json({data: employee, message: `reading the employee with id: ${id_employee}` });
   } 
+  
   //EXPORT
 
      module.exports={
     findAllEmployees: obtenerEmployees,
     createEmployee:createEmployee,
-    getEmployeById:getEmployeById,
     deleteEmployee: deleteEmployee,
-    updateEmployee: updateEmployee
+    updateEmployee: updateEmployee,
+    findEmployeeById: findEmployeeById 
 }
