@@ -1,18 +1,22 @@
 const connectiondb = require("../config/db.config")
 
-const findAllAssets = async()=> {
+const getAllAssets = async()=> {
 const rows = await connectiondb.query('SELECT*FROM assets e').spread((rows)=>rows)
 return rows
 }
-//find by id
- const findById = async (id_asset)=>{
+//FIND ASSETS BY ASSET ID
+ const getAssetById = async (id_asset)=>{
     const sqlQuery=`SELECT * FROM  assets a WHERE a.id_asset = ${id_asset} `
      const rows = await  connectiondb.query(sqlQuery).spread((rows)=>rows)
      return rows.length>0 ? rows[0] : []
  }
 
-// 
-
+// FIND ASSETS BY EMPLOYEE ID
+const  getAssetsByEmployeeId= async (id_employee)=>{
+   const sqlQuery=`SELECT a.name,  a.type, a.code, a.marca, a.description, a.purchase_date, e.first_name, e.last_name FROM  assets a join employees e on a.id_employee = e.id_employee WHERE e.id_employee = ${id_employee} `
+    const rows = await  connectiondb.query(sqlQuery).spread((rows)=>rows)
+    return rows
+}
 //CREATE
 const createAsset = async (values)=>{
    const  {name, type, code, marca, description, purchase_date, id_employee} = values
@@ -39,9 +43,10 @@ const deleteAsset = async (id_asset)=>{
     return result
  }
  //EXPORTS
-module.exports = {findAllAssets,
-    findById,
+module.exports = {getAllAssets,
+    getAssetById,
     createAsset,
     deleteAsset,
-updateAsset}
+updateAsset,
+getAssetsByEmployeeId}
 

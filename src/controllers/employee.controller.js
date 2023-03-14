@@ -7,8 +7,8 @@ const EmployeesModel= require('../models/employee.model');
 
 //obtener employees
 
-const obtenerEmployees= async (req,res)=>{
-    const empleados = await EmployeesModel.findAllEmployees();
+const getAllEmployees= async (req,res)=>{
+    const empleados = await EmployeesModel.getAllEmployees();
     res.json({data: empleados});
 };
 
@@ -50,19 +50,19 @@ const updateEmployee = async (req, res) => {
   res.status(200).json({ message: 'the employee was updated succesfully!', result });//DOLO REVISA EL ESTADO!!!
   }
   //FIND BY ID
-const findEmployeeById = async (req, res) => {
+const getEmployeeById = async (req, res) => {
   //extraigo el id del empleado a borrar
   const id_employee=req.params.id_employee;
-  const employee = await EmployeesModel.findById(id_employee)
+  const employee = await EmployeesModel.getEmployeeById(id_employee)
   res.status(200).json({data: employee, message: `reading the employee with id: ${id_employee}` });
   } 
   
   //EXPORT
 
      module.exports={
-    findAllEmployees: obtenerEmployees,
+    getAllEmployees: getAllEmployees,
     createEmployee:createEmployee,
     deleteEmployee: deleteEmployee,
     updateEmployee: updateEmployee,
-    findEmployeeById: findEmployeeById 
+    getEmployeeById: getEmployeeById 
 }

@@ -1,12 +1,12 @@
 
 const connectiondb = require("../config/db.config")
 
-const findAllEmployees = async()=> {
+const getAllEmployees = async()=> {
 const rows = await connectiondb.query('SELECT*FROM employees e').spread((rows)=>rows)
 return rows
 }
 //find by id
- const findById = async (id_employee)=>{
+ const getEmployeeById = async (id_employee)=>{
     const sqlQuery=`SELECT * FROM  employees e WHERE e.id_employee = ${id_employee} `
      const rows = await  connectiondb.query(sqlQuery).spread((rows)=>rows)
      return rows.length>0 ? rows[0] : []
@@ -40,8 +40,8 @@ const deleteEmployee = async (id_employee)=>{
     return result
  }
  //EXPORTS
-module.exports = {findAllEmployees,
-    findById,
+module.exports = {getAllEmployees,
+    getEmployeeById,
     createEmployee,
     deleteEmployee,
 updateEmployee}
