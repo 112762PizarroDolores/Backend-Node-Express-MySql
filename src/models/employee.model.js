@@ -1,9 +1,11 @@
 
 const connectiondb = require("../config/db.config")
 
-const getAllEmployees = async()=> {
-const rows = await connectiondb.query('SELECT*FROM employees e').spread((rows)=>rows)
+const getAllEmployees = async(limit, offset)=> {
+
+const rows = await connectiondb.query(`SELECT*FROM employees e LIMIT ${limit} OFFSET ${offset}`).spread((rows)=>rows)
 return rows
+
 }
 //find by id
  const getEmployeeById = async (id_employee)=>{

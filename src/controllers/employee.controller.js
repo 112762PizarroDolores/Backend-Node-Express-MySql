@@ -8,9 +8,13 @@ const EmployeesModel= require('../models/employee.model');
 //obtener employees
 
 const getAllEmployees= async (req,res)=>{
-    const empleados = await EmployeesModel.getAllEmployees();
+  const page = req.query.page || 1; // página actual
+  const limit =3; // límite de elementos por página
+  const offset = (page - 1) * limit; // offset para la consulta
+
+    const empleados = await EmployeesModel.getAllEmployees(limit, offset);
     res.json({data: empleados});
-};
+  };
 
 //CREATE
 const createEmployee = async (req, res) => {
