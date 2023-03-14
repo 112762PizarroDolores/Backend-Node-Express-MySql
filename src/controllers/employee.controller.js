@@ -2,6 +2,9 @@
 const connectiondb = require('../config/db.config');
 const conexion= require ('../config/db.config');
 const EmployeesModel= require('../models/employee.model');
+// const HttpError = require('../utils/manejoError');//DOLO VER!!!
+
+
 //obtener employees
 
 const obtenerEmployees= async (req,res)=>{
@@ -11,22 +14,23 @@ const obtenerEmployees= async (req,res)=>{
 
 //CREATE
 const createEmployee = async (req, res) => {
+// try {
+  
   const values =  {...req.body};
   const result = await EmployeesModel.createEmployee(values)
   console.log(result)
   res.status(201).json({ data: result });
-};
 
-// FIND BY ID
-// const findEmployeeById = async (req, res) => {
-//    try {
-//     const employee = await EmployeesModel.findEmployeeById(insertId)
-//     res.status(201).json({ data: employee });
-  
-//   } catch (error) {
-//     res.status(500).json({error: "Something is wrong! Review..."})
-//   }
+// } catch (error) {
+  // const CustomError = new HttpError(
+  //   "Fetching employee failed, please try again later.",
+  //   500
+  // );
+  // res.json({ errorMessage: CustomError.message, CustomError });
+}
+
 // };
+
 
 //DELETE!
 const deleteEmployee = async (req, res) => {

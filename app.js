@@ -5,7 +5,7 @@ const dotEnv=require("dotenv")
 //const morgan = require("morgan");//DOLO INSTALALO DESPUES
 
 // import de routes
-//const assetsRouter = require("./src/routes/asset.route");
+const assetsRouter = require("./src/routes/asset.route");
 const employeesRouter = require("./src/routes/employee.route");
 
 
@@ -21,7 +21,7 @@ app.use(express.json({ limit: '50mb' }));
 //app.use(morgan("dev"));//DOLO VER SI ESTA DESC
 
 //end point inicial, con el router
-//app.use("/api/employees/assets", assetsRouter);http://localhost:3000/api/employee
+ app.use("/api/assets", assetsRouter); 
 app.use("/api/employees", employeesRouter); //http://localhost:3000/api/employee
 
 // endpoint de error cuando se ingresa a una ruta que no existe
