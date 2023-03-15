@@ -1,7 +1,7 @@
 const connectiondb = require("../config/db.config")
 
-const getAllAssets = async()=> {
-const rows = await connectiondb.query('SELECT*FROM assets e').spread((rows)=>rows)
+const getAllAssets = async(limit, offset)=> {
+const rows = await connectiondb.query('SELECT*FROM assets e LIMIT ${limit} OFFSET ${offset}').spread((rows)=>rows)
 return rows
 }
 //FIND ASSETS BY ASSET ID

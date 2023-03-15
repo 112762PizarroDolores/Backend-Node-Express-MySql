@@ -6,12 +6,16 @@ const AssetsModel= require('../models/asset.model');
 const EmployeesModel= require('../models/employee.model');
 
 
-//GET ALL ASETS
+//GET ALL ASETS con paginacioón
 
 const getAllAssets= async (req,res)=>{
-    const assets = await AssetsModel.getAllAssets();
-    res.json({data: assets});
 
+    const page = req.query.page || 1; // página actual
+    const limit =3; // límite de elementos por página
+    const offset = (page - 1) * limit; // offset para la consulta
+    const assets = await AssetsModel.getAllAssets(limit, offset);
+    res.json({data: assets});
+      
 };
 
 //CREATE ASSET

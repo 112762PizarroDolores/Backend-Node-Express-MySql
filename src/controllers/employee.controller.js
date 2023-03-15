@@ -5,7 +5,7 @@ const EmployeesModel= require('../models/employee.model');
 // const HttpError = require('../utils/manejoError');//DOLO VER!!!
 
 
-//obtener employees
+//GET ALL employees con paginación
 
 const getAllEmployees= async (req,res)=>{
   const page = req.query.page || 1; // página actual
