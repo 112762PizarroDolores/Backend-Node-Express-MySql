@@ -5,7 +5,7 @@ const connectiondb = require("../config/db.config");
 const getAllEmployees = async (where, ordenar, limite) => {
 // console.log({...where, ...ordenar, ...direction, ...limite});
 const params = `${where} ${ordenar} ${limite}`;
-console.log('hola',params)
+
   const rows = await connectiondb
     .query(`SELECT * FROM employees ${params}`)
     .spread((rows) => rows);

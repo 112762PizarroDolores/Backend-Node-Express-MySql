@@ -1,8 +1,9 @@
 const connectiondb = require("../config/db.config");
 
-const getAllAssets = async (limit, offset) => {
+const getAllAssets = async (where, ordenar, limite) => {
+  const params = `${where} ${ordenar} ${limite}`;
   const rows = await connectiondb
-    .query("SELECT*FROM assets e LIMIT ${limit} OFFSET ${offset}")
+    .query(`SELECT * FROM assets ${params}`)
     .spread((rows) => rows);
   return rows;
 };
