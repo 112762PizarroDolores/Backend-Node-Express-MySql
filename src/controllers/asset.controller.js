@@ -75,7 +75,7 @@ const getAllAssets = async (req, res, next) => {
 
 
 //CREATE ASSET
-const createAsset = async (req, res) => {
+const createAsset = async (req, res, next) => {
   try{
   //extraigo cuerpo del asset
   const values = { ...req.body };
@@ -95,7 +95,7 @@ const createAsset = async (req, res) => {
 
 
 //DELETE ASSET
-const deleteAsset = async (req, res) => {
+const deleteAsset = async (req, res, next) => {
   try{
   //extraigo el id del asset a borrar
     const id_asset = req.params.id_asset;

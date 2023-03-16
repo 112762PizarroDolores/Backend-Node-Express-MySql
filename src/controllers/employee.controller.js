@@ -93,7 +93,7 @@ try{
 
 
 //DELETE!
-const deleteEmployee = async (req, res) => {
+const deleteEmployee = async (req, res, next) => {
   try{
   //extraigo el id y body del empleado a eliminar
   const employeeId= req.params.id_employee;
