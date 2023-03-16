@@ -25,8 +25,6 @@ const getAllEmployees = async (req, res, next) => {
     limit,
   } = req.query;
 
-  // console.log(req.query)
-  //las query s emandan por enlace desps del simbolo de pregunta. y luego los valores van ordenamos como clave valor, se encadenas params con el &&
 
   //2) DECLARA VALORES INICIALES
 
@@ -58,18 +56,7 @@ const getAllEmployees = async (req, res, next) => {
     }
     
   }
-  //ORDENAMIENTO
-  // if (direction) {
-    
-    //  ordenar = `ORDER BY ${orderBy} ${direction}`;
-      
-  //}
-  
-  //PAGINACIÓN
-  // if (limit) {
-  //   let pageResult = (page - 1) * limit;
-  //   limite = `LIMIT ${pageResult},${limit}`;
-  // }
+
 
   limite = `LIMIT 5`;
   //QUERY PARA EL GET CON TODOS LOS PARAMS PARA FILTRAR, ORDENAR Y PAGINAR
@@ -87,51 +74,47 @@ const getAllEmployees = async (req, res, next) => {
   return next(error);
 }
 }
-//      const page = req.query.page || 1; // página actual
-//      const limit =3; // límite de elementos por página
-//      const offset = (page - 1) * limit; // offset para la consulta
 
-//        const empleados = await EmployeesModel.getAllEmployees(limit, offset);
-//        res.json({data: empleados});
-//  };
 
 //CREATE
 const createEmployee = async (req, res) => {
-  // try {
 
   const values = { ...req.body };
   const result = await EmployeesModel.createEmployee(values);
   console.log(result);
   res.status(201).json({ data: result });
 
-  // } catch (error) {
-  // const CustomError = new HttpError(
-  //   "Fetching employee failed, please try again later.",
-  //   500
-  // );
-  // res.json({ errorMessage: CustomError.message, CustomError });
+  
 };
 
-// };
 
 //DELETE!
 const deleteEmployee = async (req, res) => {
   //extraigo el id del empleado a borrar
   const id_employee = req.params.id_employee;
   const result = await EmployeesModel.deleteEmployee(id_employee);
-  res.status(200).json({ message: "the employee was deleted succesfully!" }); //DOLO REVISA EL ESTADO!!!
+  res.status(200).json({ message: "the employee was deleted succesfully!" });
 };
 
 //UPDATE
-const updateEmployee = async (req, res) => {
-  //extraigo el id y body del empleado a actualizar
+const updateEmployee = async (req, res, next) => {
+try{
+    //extraigo el id y body del empleado a actualizar
+  const userId= req.params.id_employee;
+
+  //encuentro el objeto EMPLOYEE a modificar
+  const user=await EmployeesModel.getEmployeeById(userId)
+  if(!user) {
+    return res.json({message:'the employee doesnt exists'});
+  }
   const values = { ...req.body };
-  const id_employee = req.params.id_employee;
-  //llamo a la funcion de mi model para hacer el update
-  const result = await EmployeesModel.updateEmployee(id_employee, values);
-  res
-    .status(200)
-    .json({ message: "the employee was updated succesfully!", result }); //DOLO REVISA EL ESTADO!!!
+  const result=await EmployeesModel.updateEmployee(user,values);
+  res.json({result, message:'the employee was updated succesfully!', result})
+  }
+catch(error){
+console.log(error)
+next(error)
+}
 };
 //FIND BY ID
 const getEmployeeById = async (req, res) => {

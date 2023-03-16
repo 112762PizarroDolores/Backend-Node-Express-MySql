@@ -11,7 +11,7 @@ const getAllAssets = async (where, ordenar, limite) => {
 const getAssetById = async (id_asset) => {
   const sqlQuery = `SELECT * FROM  assets a WHERE a.id_asset = ${id_asset} `;
   const rows = await connectiondb.query(sqlQuery).spread((rows) => rows);
-  return rows.length > 0 ? rows[0] : [];
+  return rows.length > 0 ? rows[0] : null;
 };
 
 // FIND ASSETS BY EMPLOYEE ID
@@ -43,22 +43,20 @@ const deleteAsset = async (id_asset) => {
   return result;
 };
 //UPDATE
-const updateAsset = async (id_asset, values) => {
-  const { name, type, code, marca, description, purchase_date, id_employee } =
-    values;
-
-  const sqlQuery = `UPDATE assets SET name=?, type=?, code=?, marca=?, description=?, purchase_date=?, id_employee=? WHERE id_asset = ${id_asset}`;
-  const result = await connectiondb
-    .query(sqlQuery, [
-      name,
-      type,
-      code,
-      marca,
-      description,
-      purchase_date,
-      id_employee,
-    ])
-    .spread((result) => result);
+const updateAsset = async (user, values) => {
+  //saque a id_employee
+  const {name, type, code, marca, description, purchase_date, id_employee} = values;
+//saqué de la sig query el id_empoyee=?
+  const sql = `UPDATE assets SET name=?, type=?, code=?, marca=?, description=?, purchase_date=?, id_employee=? WHERE id_asset=${user.id_asset}`;
+  const result = await connectiondb.query(sql,[
+      name ? name:user.name,
+      type ? type:user.type,
+      code ? code:user.code,
+      marca ? marca:user.marca,
+      description ? description:user.description,
+      purchase_date ? purchase_date:user. purchase_date,
+      id_employee ? id_employee:user.id_employee
+    ]).spread((result) => result);
   return result;
 };
 //EXPORTS

@@ -71,14 +71,6 @@ const getAllAssets = async (req, res, next) => {
     return next(error);
   }
 
-
-
-
-  // const page = req.query.page || 1; // página actual
-  // const limit = 3; // límite de elementos por página
-  // const offset = (page - 1) * limit; // offset para la consulta
-  // const assets = await AssetsModel.getAllAssets(limit, offset);
-  // res.json({ data: assets });
 };
 
 //CREATE ASSET
@@ -99,32 +91,24 @@ const deleteAsset = async (req, res) => {
 };
 
 //UPDATE ASSET
-const updateAsset = async (req, res) => {
-  //extraigo el id y body del asset a actualizar
+const updateAsset = async (req, res, next) => {
+  try{
+    //extraigo el id y body del empleado a actualizar
+  const userId= req.params.id_asset;
+  //existe el asset pasado por la url?
+  const user=await AssetsModel.getAssetById(userId)
+//si no existe no lo dejes continar y devolveme un msj
+  if(!user) {
+    return res.json({message:'the asset doesnt exists'});
+  }
   const values = { ...req.body };
-  const id_asset = req.params.id_asset;
-
-  //encuentro el objeto asset a modificar
- const assetToModify=await AssetsModel.getAssetById(id_asset)
-console.log(assetToModify)
-//tomo datos editados(re.body=values) y se los paso a mi objeto de la bd(assetToModify)
-if(values.name)
-{
-  assetToModify.name=values.name;
+  const result=await AssetsModel.updateAsset(user,values);
+  res.json({result, message:'the asset was updated succesfully!', result})
+ }
+catch(error){
+console.log(error)
+next(error)
 }
-if(values.type)
-{
-  assetToModify.type=values.type;
-}
-// if(values.)
-// {
-//   assetToModify.name=values.name;
-// }
-  //llamo a la funcion de mi model para hacer el update
-  const result = await AssetsModel.updateAsset(id_asset, assetToModify);
-  res
-    .status(200)
-    .json({ message: "the asset was updated succesfully!", result }); //DOLO REVISA EL ESTADO!!!
 };
 
 //GET ASSET BY ID
