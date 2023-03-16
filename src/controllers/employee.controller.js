@@ -95,7 +95,7 @@ try{
 //DELETE!
 const deleteEmployee = async (req, res, next) => {
   try{
-  //extraigo el id y body del empleado a eliminar
+  //extraigo el id del empleado a eliminar
   const employeeId= req.params.id_employee;
   //encuentro el objeto EMPLOYEE a eliminar
   const employee=await EmployeesModel.getEmployeeById(employeeId)

@@ -16,7 +16,7 @@ const getAssetById = async (id_asset) => {
 
 // FIND ASSETS BY EMPLOYEE ID
 const getAssetsByEmployeeId = async (id_employee) => {
-  const sqlQuery = `SELECT a.name,  a.type, a.code, a.marca, a.description, a.purchase_date, e.first_name, e.last_name FROM  assets a join employees e on a.id_employee = e.id_employee WHERE e.id_employee = ${id_employee} `;
+  const sqlQuery = `SELECT a.name,  a.type, a.code, a.marca, a.description, a.purchase_date, e.first_name, e.last_name, e.id_employee FROM  assets a join employees e on a.id_employee = e.id_employee WHERE e.id_employee = ${id_employee} `;
   const rows = await connectiondb.query(sqlQuery).spread((rows) => rows);
   return rows;
 };
@@ -43,19 +43,20 @@ const deleteAsset = async (id_asset) => {
   return result;
 };
 //UPDATE
-const updateAsset = async (user, values) => {
+const updateAsset = async (asset, values) => {
   //saque a id_employee
   const {name, type, code, marca, description, purchase_date, id_employee} = values;
+  console.log(asset.id_employee)
 //saqué de la sig query el id_empoyee=?
-  const sql = `UPDATE assets SET name=?, type=?, code=?, marca=?, description=?, purchase_date=?, id_employee=? WHERE id_asset=${user.id_asset}`;
+  const sql = `UPDATE assets SET name=?, type=?, code=?, marca=?, description=?, purchase_date=?, id_employee=? WHERE id_asset=${asset.id_asset}`;
   const result = await connectiondb.query(sql,[
-      name ? name:user.name,
-      type ? type:user.type,
-      code ? code:user.code,
-      marca ? marca:user.marca,
-      description ? description:user.description,
-      purchase_date ? purchase_date:user. purchase_date,
-      id_employee ? id_employee:user.id_employee
+      name ? name:asset.name,
+      type ? type:asset.type,
+      code ? code:asset.code,
+      marca ? marca:asset.marca,
+      description ? description:asset.description,
+      purchase_date ? purchase_date:asset. purchase_date,
+      id_employee ? id_employee:asset.id_employee
     ]).spread((result) => result);
   return result;
 };

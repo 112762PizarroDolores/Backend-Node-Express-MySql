@@ -13,6 +13,7 @@ const {
   updateAsset,
   getAssetsByEmployeeId,
 } = require("../controllers/asset.controller");
+const { validateIdEmployee } = require("../middlewares/validatorEmployees");
 
 assetRouter.get("/", getAllAssets);
 assetRouter.post("/create", validateCreateAsset, createAsset); //CREATE SOBRE LA BARRA /SIN TEXTO--> VER MEJORES PRACTICAS-...PARA PENSAR.
@@ -24,10 +25,6 @@ assetRouter.put(
   updateAsset
 );
 assetRouter.get("/:id_asset", validateIdAsset, getAssetById);
-assetRouter.get(
-  "/employee/:id_employee",
-  validateIdAsset,
-  getAssetsByEmployeeId
-);
+assetRouter.get("/employee/:id_employee",validateIdEmployee,getAssetsByEmployeeId);
 
 module.exports = assetRouter;
