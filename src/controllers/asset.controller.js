@@ -103,8 +103,25 @@ const updateAsset = async (req, res) => {
   //extraigo el id y body del asset a actualizar
   const values = { ...req.body };
   const id_asset = req.params.id_asset;
+
+  //encuentro el objeto asset a modificar
+ const assetToModify=await AssetsModel.getAssetById(id_asset)
+console.log(assetToModify)
+//tomo datos editados(re.body=values) y se los paso a mi objeto de la bd(assetToModify)
+if(values.name)
+{
+  assetToModify.name=values.name;
+}
+if(values.type)
+{
+  assetToModify.type=values.type;
+}
+// if(values.)
+// {
+//   assetToModify.name=values.name;
+// }
   //llamo a la funcion de mi model para hacer el update
-  const result = await AssetsModel.updateAsset(id_asset, values);
+  const result = await AssetsModel.updateAsset(id_asset, assetToModify);
   res
     .status(200)
     .json({ message: "the asset was updated succesfully!", result }); //DOLO REVISA EL ESTADO!!!

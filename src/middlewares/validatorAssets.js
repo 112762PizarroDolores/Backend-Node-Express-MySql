@@ -13,13 +13,13 @@ const validateCreateAsset = [
   },
 ];
 const validateUpdateAsset = [
-  check("name").exists().notEmpty(),
-  check("type").exists().notEmpty(),
-  check("code").exists().notEmpty(),
-  check("marca").exists().notEmpty(),
-  check("description").exists().notEmpty(),
-  check("purchase_date").exists().notEmpty(),
-  check("id_employee").exists().notEmpty(),
+  check("name").optional().notEmpty(),
+  check("type").optional().notEmpty(),
+  check("code").optional().notEmpty(),
+  check("marca").optional().notEmpty(),
+  check("description").optional().notEmpty(),
+  check("purchase_date").optional().notEmpty(),
+  check("id_employee").optional().notEmpty(),
   (req, res, next) => {
     validateResult(req, res, next);
   },
