@@ -65,7 +65,7 @@ const getAllAssets = async (req, res, next) => {
     res.json({ data: assets });
   }catch (err) {
     const error = new HttpError(
-      'Fetching assets failed, please try again later.',
+      'The operation "Get all assets" failed, please try again later.',
       500
     );
     return next(error);
@@ -73,22 +73,45 @@ const getAllAssets = async (req, res, next) => {
 
 };
 
+
 //CREATE ASSET
 const createAsset = async (req, res) => {
+  try{
   //extraigo cuerpo del asset
   const values = { ...req.body };
   const result = await AssetsModel.createAsset(values);
   console.log(result);
   res.status(201).json({ data: result });
+  }
+  catch(err){
+    const error = new HttpError(
+      'The operation "Create asset" failed, please try again later.',
+      500
+    );
+    return next(error);
+  
+    }
 };
+
 
 //DELETE ASSET
 const deleteAsset = async (req, res) => {
+  try{
   //extraigo el id del asset a borrar
-  const id_asset = req.params.id_asset;
+    const id_asset = req.params.id_asset;
   const result = await AssetsModel.deleteAsset(id_asset);
-  res.status(200).json({ message: "the asset was deleted succesfully!" }); //DOLO REVISA EL ESTADO!!!
+  res.status(200).json({ message: "the asset was deleted succesfully!" }); 
+  }
+  catch(err){
+    const error = new HttpError(
+      'The operation "Delete asset" failed, please try again later.',
+      500
+    );
+    return next(error);
+  
+    }
 };
+
 
 //UPDATE ASSET
 const updateAsset = async (req, res, next) => {
@@ -105,33 +128,58 @@ const updateAsset = async (req, res, next) => {
   const result=await AssetsModel.updateAsset(user,values);
   res.json({result, message:'the asset was updated succesfully!', result})
  }
-catch(error){
-console.log(error)
-next(error)
-}
+ catch(err){
+  const error = new HttpError(
+    'The operation "Update asset" failed, please try again later.',
+    500
+  );
+  return next(error);
+
+  }
 };
 
+
 //GET ASSET BY ID
-const getAssetById = async (req, res) => {
+const getAssetById = async (req, res, next) => {
+try{
   //extraigo el id del asset a encontrar
   const id_asset = req.params.id_asset;
   const asset = await AssetsModel.getAssetById(id_asset);
   res
     .status(200)
     .json({ data: asset, message: `reading the asset with id: ${id_asset}` });
+}catch(err){
+  const error = new HttpError(
+    'The operation "Get assets by Id" failed, please try again later.',
+    500
+  );
+  return next(error);
+
+  }
 };
 
+
 //GET ASSETS BY EMPLOYEE ID
-const getAssetsByEmployeeId = async (req, res) => {
+const getAssetsByEmployeeId = async (req, res, next) => {
+try{  
   //extraigo el id del EMPLEDO pasado como param dinámico en ruta, cuyos assets asociados quiero ENCONTRAR
   const id_employee = req.params.id_employee;
   let employeeWithAssets;
   employeeWithAssets = await AssetsModel.getAssetsByEmployeeId(id_employee);
   res.json({ data: employeeWithAssets });
+}
+catch(err){
+  const error = new HttpError(
+    'The operation "Get assets by EmployeeId" failed, please try again later.',
+    500
+  );
+  return next(error);
+
+  }
 };
 
-//EXPORT
 
+//EXPORT
 module.exports = {
   getAllAssets: getAllAssets,
   createAsset: createAsset,

@@ -3,7 +3,7 @@ const { query } = require("express");
 const connectiondb = require("../config/db.config");
 const conexion = require("../config/db.config");
 const EmployeesModel = require("../models/employee.model");
-const HttpError = require('../utils/manejoError');//DOLO VER!!!
+const HttpError = require('../utils/manejoError');
 
 //GET ALL employees con paginación
 
@@ -56,8 +56,6 @@ const getAllEmployees = async (req, res, next) => {
     }
     
   }
-
-
   limite = `LIMIT 5`;
   //QUERY PARA EL GET CON TODOS LOS PARAMS PARA FILTRAR, ORDENAR Y PAGINAR
   const empleados = await EmployeesModel.getAllEmployees(
@@ -68,7 +66,7 @@ const getAllEmployees = async (req, res, next) => {
   res.json({ data: empleados });
 }catch (err) {
   const error = new HttpError(
-    'Fetching employees failed, please try again later.',
+    'The operation "get all employees" failed, please try again later.',
     500
   );
   return next(error);
@@ -77,24 +75,44 @@ const getAllEmployees = async (req, res, next) => {
 
 
 //CREATE
-const createEmployee = async (req, res) => {
-
+const createEmployee = async (req, res, next) => {
+try{
   const values = { ...req.body };
   const result = await EmployeesModel.createEmployee(values);
   console.log(result);
   res.status(201).json({ data: result });
-
+}catch (err) {
+  const error = new HttpError(
+    'The operation "create employee" failed, please try again later.',
+    500
+  );
+  return next(error);
+}
   
 };
 
 
 //DELETE!
 const deleteEmployee = async (req, res) => {
-  //extraigo el id del empleado a borrar
-  const id_employee = req.params.id_employee;
-  const result = await EmployeesModel.deleteEmployee(id_employee);
+  try{
+  //extraigo el id y body del empleado a eliminar
+  const employeeId= req.params.id_employee;
+  //encuentro el objeto EMPLOYEE a eliminar
+  const employee=await EmployeesModel.getEmployeeById(employeeId)
+  if(!employee) {
+    return res.json({message:'The employee whose you want delete doesnt exists. Review'});
+  }
+   const result = await EmployeesModel.deleteEmployee(employeeId);
   res.status(200).json({ message: "the employee was deleted succesfully!" });
+  }catch (err) {
+    const error = new HttpError(
+      'The operation "delete employee" failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
 };
+
 
 //UPDATE
 const updateEmployee = async (req, res, next) => {
@@ -110,27 +128,44 @@ try{
   const values = { ...req.body };
   const result=await EmployeesModel.updateEmployee(user,values);
   res.json({result, message:'the employee was updated succesfully!', result})
-  }
-catch(error){
-console.log(error)
-next(error)
+}catch (err) {
+  const error = new HttpError(
+    'The operation "update employee" failed, please try again later.',
+    500
+  );
+  return next(error);
 }
 };
+
+
 //FIND BY ID
-const getEmployeeById = async (req, res) => {
-  //extraigo el id del empleado a borrar
-  const id_employee = req.params.id_employee;
-  const employee = await EmployeesModel.getEmployeeById(id_employee);
+const getEmployeeById = async (req, res, next) => {
+  try{
+ //extraigo el id del empleado a obtener por id
+ const id_employee= req.params.id_employee;
+ //encuentro el objeto EMPLOYEE a obtener
+ const employee = await EmployeesModel.getEmployeeById(id_employee);
+ //si no existe el id del objeto a obtener, entonces devolveme el sig msj
+ if(!employee) {
+   return res.json({message:'the employee whose you want get, doesnt exists'});
+ }
   res
     .status(200)
     .json({
       data: employee,
       message: `reading the employee with id: ${id_employee}`,
     });
+  }catch (err) {
+    const error = new HttpError(
+      'The operation "get employee by id" failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
 };
 
-//EXPORT
 
+//EXPORT
 module.exports = {
   getAllEmployees: getAllEmployees,
   createEmployee: createEmployee,

@@ -41,7 +41,7 @@ const deleteEmployee = async (id_employee) => {
   const resultQuery1 = await connectiondb.query('DELETE FROM assets WHERE id_employee = ?', [id_employee]).spread((result) => result);
 // Eliminar el registro de la tabla principal(employees)
   const sqlQuery2 = `DELETE FROM employees WHERE id_employee = ${id_employee}`;
-  const resultQuery2 = await connectiondb.query(sqlQuery).spread((result) => result);
+  const resultQuery2 = await connectiondb.query(sqlQuery2).spread((result) => result);
   // Verificar si se eliminaron los registros correctamente
   if (resultQuery1[0].affectedRows === 1 && resultQuery2[0].affectedRows === 1) {
     console.log('Los registros fueron eliminados correctamente');
