@@ -42,10 +42,28 @@ const createEmployee = async (values) => {
 
 //DELETE
 const deleteEmployee = async (id_employee) => {
+  try {
+      // Iniciar una transacción
+  // await connectiondb.beginTransaction();
+  // Eliminar el registro de la tabla secundaria (assets)que tiene la clave externa correspondiente
+  const resultQuery1 = await connectiondb.query('DELETE FROM assets WHERE id_employee = ?', [id_employee]).spread((result) => result);
+// Eliminar el registro de la tabla principal(employees)
   const sqlQuery = `DELETE FROM employees WHERE id_employee = ${id_employee}`;
-  console.log(sqlQuery);
-  const result = await connectiondb.query(sqlQuery).spread((result) => result);
-  return result;
+  const resultQuery2 = await connectiondb.query(sqlQuery).spread((result) => result);
+  // Verificar si se eliminaron los registros correctamente
+  if (resultQuery1[0].affectedRows === 1 && resultQuery2[0].affectedRows === 1) {
+    console.log('Los registros fueron eliminados correctamente');
+  } else {
+    console.log('No se pudieron eliminar los registros');
+  }
+  // Confirmar la transacción
+  // await connectiondb.commit();
+     return resultQuery1,resultQuery2;
+  } catch (error) {
+  // Deshacer la transacción en caso de error
+  // await connectiondb.rollback();
+  console.error('Error al eliminar los registros:', error);
+} 
 };
 //UPDATE
 const updateEmployee = async (id_employee, values) => {
