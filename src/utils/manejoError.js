@@ -6,5 +6,3 @@ class HttpError extends Error {
   }
   
   module.exports = HttpError;
-
-//DOLO VER PUNTITO EXTRA!
