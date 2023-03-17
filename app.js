@@ -17,20 +17,19 @@ app.use(cors());
 //middleware global, para recibir bodies de formato json
 app.use(express.json({ limit: "50mb" }));
 // middleware global, para ver logs de consultas en la terminal. Borrar en fase de produccion
-//app.use(morgan("dev"));//DOLO VER SI ESTA DESC
 
 //end point inicial, con el router
 app.use("/api/assets", assetsRouter);
 app.use("/api/employees", employeesRouter); //http://localhost:3000/api/employee
 
 // endpoint de error cuando se ingresa a una ruta que no existe
-app.set("title", "Hi, The requested page is not available");
+app.set("title", "The page is not available, please review");
 app.get("/*", (req, res) => {
   res.send(app.get("title"));
   console.log(app.get("title"));
 });
 
-//conexion
+//escucho puerto
 app.listen(PORT, () => {
   console.log(`Server corriendo en el puerto ${PORT}`);
 });

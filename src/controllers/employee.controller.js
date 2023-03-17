@@ -100,7 +100,7 @@ const deleteEmployee = async (req, res, next) => {
   //encuentro el objeto EMPLOYEE a eliminar
   const employee=await EmployeesModel.getEmployeeById(employeeId)
   if(!employee) {
-    return res.json({message:'The employee whose you want delete doesnt exists. Review'});
+    return res.json({message:'The employee whose you want delete doesnt exists. Review',code: 500});
   }
    const result = await EmployeesModel.deleteEmployee(employeeId);
   res.status(200).json({ message: "the employee was deleted succesfully!" });
@@ -123,7 +123,7 @@ try{
   //encuentro el objeto EMPLOYEE a modificar
   const user=await EmployeesModel.getEmployeeById(userId)
   if(!user) {
-    return res.json({message:'the employee doesnt exists'});
+    return res.json({message:'the employee doesnt exists',code: 500});
   }
   const values = { ...req.body };
   const result=await EmployeesModel.updateEmployee(user,values);
@@ -147,7 +147,7 @@ const getEmployeeById = async (req, res, next) => {
  const employee = await EmployeesModel.getEmployeeById(id_employee);
  //si no existe el id del objeto a obtener, entonces devolveme el sig msj
  if(!employee) {
-   return res.json({message:'the employee whose you want get, doesnt exists'});
+   return res.json({message:'the employee whose you want get, doesnt exists', code: 500});
  }
   res
     .status(200)
