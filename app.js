@@ -1,8 +1,7 @@
 // dependencias
 const express = require("express");
 const cors = require("cors");
-const dotEnv = require("dotenv");
-
+require ("dotenv").config();
 
 // import de routes
 const assetsRouter = require("./src/routes/asset.route");
