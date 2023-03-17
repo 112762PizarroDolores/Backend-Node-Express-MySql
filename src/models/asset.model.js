@@ -46,8 +46,8 @@ const deleteAsset = async (id_asset) => {
 const updateAsset = async (asset, values) => {
   //saque a id_employee
   const {name, type, code, marca, description, purchase_date, id_employee} = values;
-  console.log(asset.id_employee)
-//saqué de la sig query el id_empoyee=?
+  console.log('SOY ASSET',asset);
+  console.log('SOY VALUES', values)//saqué de la sig query el id_empoyee=?
   const sql = `UPDATE assets SET name=?, type=?, code=?, marca=?, description=?, purchase_date=?, id_employee=? WHERE id_asset=${asset.id_asset}`;
   const result = await connectiondb.query(sql,[
       name ? name:asset.name,

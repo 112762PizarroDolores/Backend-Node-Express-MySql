@@ -134,33 +134,22 @@ const updateAsset = async (req, res, next) => {
   }
 //EMPIEZA LO NUEVO PARA VER SI EXISTE EL ID_EMPLOYEE EN CASO DE QUE ESO QUIERAN EDITAR
 //HACER IF QUE DIGA QUE SI EN EL BODY de la REQ LLEGA EM CAMPO ID_EMPLOYEE, ENTONCES : 
-const {
-  name,
-  type,
-  code,
-  marca,
-  description,
-  purchase_date,
-  id_employee,
- } = req.body;
-
+const id_employee= req.body.id_employee;
 if(id_employee)
-{  //1)extraigo el id de empleado que se quiere poner en el body del asset a actualizar
-  const employeeId= req.body.id_employee;
-  //2) compruebo si existe el id_employee pasado por el body
-  const employee=await EmployeesModel.getEmployeeById(employeeId)
-//si no existe no lo dejes continuar y devolveme un msj
+{  
+  //1) compruebo si existe el id_employee pasado por el body en mi bd
+  const employee=await EmployeesModel.getEmployeeById(id_employee)
+//si no existe no lo dejes continuar y devolveme un msj de error
   if(!employee) {
-    return res.json({message:'the employee whose you want insert doesnt exists, please review.'});
+    return res.json({message:'the employee whose you want insert doesnt exists, please review.', code: 500});
   }
-  if(employee){
-asset.id_employee=employee.id_employee
-  }
+  
+}
 //TERMINA LO NUEVO
    const values = { ...req.body };
   const result=await AssetsModel.updateAsset(asset,values);
   res.json({result, message:'the asset was updated succesfully!', result})
- }
+ 
  //AGREGE LLAVE AHORA SI NO ANDA EL CODIGO QUITAR ESTO Y LO QUE ESTA ENTRE EMPIEZA Y TERMINA
 }
  catch(err){
