@@ -2,7 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotEnv = require("dotenv");
-//const morgan = require("morgan");//DOLO INSTALALO DESPUES
+
 
 // import de routes
 const assetsRouter = require("./src/routes/asset.route");
@@ -14,9 +14,9 @@ const PORT = process.env.API_PORT || 3000;
 
 //middleware global, pra resolver error cors
 app.use(cors());
-//middleware global, para recibir bodies de formato json
+//middleware global, para recibir body de formato json
 app.use(express.json({ limit: "50mb" }));
-// middleware global, para ver logs de consultas en la terminal. Borrar en fase de produccion
+
 
 //end point inicial, con el router
 app.use("/api/assets", assetsRouter);
