@@ -56,7 +56,7 @@ const getAllEmployees = async (req, res, next) => {
     }
     
   }
-  limite = `LIMIT 5`;
+  limite = `LIMIT 25`;
   //QUERY PARA EL GET CON TODOS LOS PARAMS PARA FILTRAR, ORDENAR Y PAGINAR
   const empleados = await EmployeesModel.getAllEmployees(
     where,
