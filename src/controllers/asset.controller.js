@@ -77,13 +77,27 @@ const getAllAssets = async (req, res, next) => {
 //CREATE ASSET
 const createAsset = async (req, res, next) => {
   try{
+    const id_employee= req.body.id_employee;
+    if(id_employee)
+    {  
+      //1) compruebo si existe el id_employee pasado por el body en mi bd
+      const employee=await EmployeesModel.getEmployeeById(id_employee)
+    //si no existe no lo dejes continuar y devolveme un msj de error
+      if(!employee) {
+        return res.json({message:'the employee whose you want insert doesnt exists, please review.', code: 500});
+      }
+      
+    }
+    //TERMINA LO NUEVO
+
+
+
   //extraigo cuerpo del asset
   const values = { ...req.body };
   const result = await AssetsModel.createAsset(values);
   console.log(result);
   res.status(201).json({ data: result });
-  }
-  catch(err){
+  }catch(err){
     const error = new HttpError(
       'The operation "Create asset" failed, please try again later.',
       500

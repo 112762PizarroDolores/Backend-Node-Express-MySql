@@ -22,10 +22,8 @@ const getAssetsByEmployeeId = async (id_employee) => {
 };
 //CREATE
 const createAsset = async (values) => {
-  const { name, type, code, marca, description, purchase_date, id_employee } =
-    values;
-  const result = await connectiondb
-    .query(
+  const { name, type, code, marca, description, purchase_date, id_employee } = values;
+  const result = await connectiondb.query(
       "INSERT INTO assets(name, type, code, marca, description, purchase_date, id_employee) values(?,?,?,?,?,?,?)",
       [name, type, code, marca, description, purchase_date, id_employee]
     )

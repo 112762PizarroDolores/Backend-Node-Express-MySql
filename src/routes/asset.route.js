@@ -16,7 +16,7 @@ const {
 const { validateIdEmployee } = require("../middlewares/validatorEmployees");
 
 assetRouter.get("/", getAllAssets);
-assetRouter.post("/create", validateCreateAsset, createAsset); //CREATE SOBRE LA BARRA /SIN TEXTO--> VER MEJORES PRACTICAS-...PARA PENSAR.
+assetRouter.post("/", validateCreateAsset, createAsset); //CREATE SOBRE LA BARRA /SIN TEXTO--> VER MEJORES PRACTICAS-...PARA PENSAR.
 assetRouter.delete("/:id_asset", validateIdAsset, deleteAsset);
 assetRouter.put("/:id_asset",validateIdAsset, validateUpdateAsset, updateAsset);
 assetRouter.get("/:id_asset", validateIdAsset, getAssetById);
