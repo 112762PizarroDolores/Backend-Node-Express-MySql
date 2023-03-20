@@ -4,7 +4,7 @@ const connectiondb = require("../config/db.config");
 const conexion = require("../config/db.config");
 const AssetsModel = require("../models/asset.model");
 const EmployeesModel = require("../models/employee.model");
-const HttpError = require('../utils/manejoError');
+const HttpError = require('../customError/customError');
 
 //GET ALL ASETS con paginacioón
 

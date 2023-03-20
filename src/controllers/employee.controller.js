@@ -3,7 +3,7 @@ const { query } = require("express");
 const connectiondb = require("../config/db.config");
 const conexion = require("../config/db.config");
 const EmployeesModel = require("../models/employee.model");
-const HttpError = require('../utils/manejoError');
+const HttpError = require('../customError/customError');
 
 //GET ALL employees con paginación
 
