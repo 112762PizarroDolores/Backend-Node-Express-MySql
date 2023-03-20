@@ -94,6 +94,7 @@ try{
 
 //DELETE!
 const deleteEmployee = async (req, res, next) => {
+  //OPCION 1: ELIMINO LOS ASSETS VINCULADOS AL EMPLEADO A ELIMINAR, Y LUEGO A ESTE EMPLEADO
   try{
   //extraigo el id del empleado a eliminar
   const employeeId= req.params.id_employee;
@@ -111,6 +112,11 @@ const deleteEmployee = async (req, res, next) => {
     );
     return next(error);
   }
+//PENDIENTES: HACER ESTA OPCION 2 DEL DELETE DE EMPLEADOS Y POR OTRO LADO QUE EL CUIT EN BD SEA UNIQUE
+//OPCION 2: COMO LA FK DE LA TABLA EN LA BD ACEPTA NULOS, AL BORRAR EL EMPLEADO LE HAGO DOS CONSULTAS: 
+//1) UNA QUE ELIMINE PREVIAMENTE LA/S RELACION/ES //(REALIZANDO UPDATE DE TODOS LOS ASSETS QUE TENGAN ESE ID DEL EMPLOYEE)
+// 2) Y MODIFICAR SU VALOR A NULO. Y POSTERIOR A ELLO: LA ELIM DEL EMPLOYEE
+
 };
 
 
