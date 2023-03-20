@@ -142,7 +142,7 @@ const updateAsset = async (req, res, next) => {
   if(!asset) {
     return res.json({message:'the asset does not exists', code: 404});
   }
-//EMPIEZA LO NUEVO PARA VER SI EXISTE EL ID_EMPLOYEE EN CASO DE QUE ESO QUIERAN EDITAR
+//PARA VER SI EXISTE EL ID_EMPLOYEE EN CASO DE QUE ESO QUIERAN EDITAR
 //HACER IF QUE DIGA QUE SI EN EL BODY de la REQ LLEGA EM CAMPO ID_EMPLOYEE, ENTONCES : 
 const id_employee= req.body.id_employee;
 if(id_employee)
@@ -155,7 +155,7 @@ if(id_employee)
   }
   
 }
-//TERMINA LO NUEVO
+//
    const values = { ...req.body };
   const result=await AssetsModel.updateAsset(asset,values);
   res.status(200).json({result, message:'the asset was updated succesfully!', result})
