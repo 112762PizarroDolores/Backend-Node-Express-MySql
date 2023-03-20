@@ -133,7 +133,7 @@ try{
   }
   const values = { ...req.body };
   const result=await EmployeesModel.updateEmployee(user,values);
-  res.status(200).json({result, message:'the employee was updated succesfully!', result})
+  res.status(200).json({result, message:'the employee was updated succesfully!'})
 }catch (err) {
   const error = new HttpError(
     'The operation "update employee" failed, please try again later.',
