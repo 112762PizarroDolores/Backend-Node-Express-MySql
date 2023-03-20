@@ -19,7 +19,7 @@ const getAllAssets = async (req, res, next) => {
       description,
       purchase_date,
       id_employee,
-      direction = "ASC",
+      direction = "ASC",//Puedo desde la url, param din, cambiarlo a desc
       page = 1,
       limit,
     } = req.query;
@@ -55,7 +55,7 @@ const getAllAssets = async (req, res, next) => {
       }
       
     }
-    limite = `LIMIT 5`;
+    limite = `LIMIT 25`;
     //QUERY PARA EL GET CON TODOS LOS PARAMS PARA FILTRAR, ORDENAR Y PAGINAR
     const assets = await AssetsModel.getAllAssets(
       where,
@@ -84,19 +84,15 @@ const createAsset = async (req, res, next) => {
       const employee=await EmployeesModel.getEmployeeById(id_employee)
     //si no existe no lo dejes continuar y devolveme un msj de error
       if(!employee) {
-        return res.json({message:'the employee whose you want insert doesnt exists, please review.', code: 500});
+        return res.json({message:'the employee whose you want insert doesnt exists, please review.', code: 404});
       }
       
     }
-    //TERMINA LO NUEVO
-
-
-
-  //extraigo cuerpo del asset
+    //extraigo cuerpo del asset
   const values = { ...req.body };
   const result = await AssetsModel.createAsset(values);
   console.log(result);
-  res.status(201).json({ data: result });
+  res.status(201).json({ message: "The operation 'Create Asset' was successfully", data: result });
   }catch(err){
     const error = new HttpError(
       'The operation "Create asset" failed, please try again later.',
@@ -118,7 +114,7 @@ const deleteAsset = async (req, res, next) => {
    const asset=await AssetsModel.getAssetById(id_asset)
  //si no existe no lo dejes continuar y devolveme un msj
    if(!asset) {
-     return res.json({message:'the asset whose you want to delete doesnt exists', code: 500});
+     return res.json({message:'the asset whose you want to delete doesnt exists', code: 404});
    }
 
   const result = await AssetsModel.deleteAsset(id_asset);
@@ -144,7 +140,7 @@ const updateAsset = async (req, res, next) => {
   const asset=await AssetsModel.getAssetById(assetId)
 //si no existe no lo dejo continuar y devolveme un msj
   if(!asset) {
-    return res.json({message:'the asset does not exists', code: 500});
+    return res.json({message:'the asset does not exists', code: 404});
   }
 //EMPIEZA LO NUEVO PARA VER SI EXISTE EL ID_EMPLOYEE EN CASO DE QUE ESO QUIERAN EDITAR
 //HACER IF QUE DIGA QUE SI EN EL BODY de la REQ LLEGA EM CAMPO ID_EMPLOYEE, ENTONCES : 
@@ -155,14 +151,14 @@ if(id_employee)
   const employee=await EmployeesModel.getEmployeeById(id_employee)
 //si no existe no lo dejes continuar y devolveme un msj de error
   if(!employee) {
-    return res.json({message:'the employee whose you want insert doesnt exists, please review.', code: 500});
+    return res.json({message:'the employee whose you want insert doesnt exists, please review.', code: 404});
   }
   
 }
 //TERMINA LO NUEVO
    const values = { ...req.body };
   const result=await AssetsModel.updateAsset(asset,values);
-  res.json({result, message:'the asset was updated succesfully!', result})
+  res.status(200).json({result, message:'the asset was updated succesfully!', result})
  
  //AGREGE LLAVE AHORA SI NO ANDA EL CODIGO QUITAR ESTO Y LO QUE ESTA ENTRE EMPIEZA Y TERMINA
 }
@@ -187,7 +183,7 @@ try{
    const asset=await AssetsModel.getAssetById(id_asset)
  //si no existe no lo dejes continuar y devolveme un msj
    if(!asset) {
-     return res.json({message:'the asset whose you want to get does not exists', code: 500});
+     return res.json({message:'the asset whose you want to get does not exists', code: 404});
    }
   res
     .status(200)
@@ -212,7 +208,7 @@ try{
   const emp=await EmployeesModel.getEmployeeById(id_employee)
 //si no existe no lo dejes continuar y devolveme un msj
   if(!emp) {
-    return res.json({message:'The assets what you want get are associating an employee who does not exist. Review the id_employee', code: 500});
+    return res.json({message:'The assets what you want get are associating an employee who does not exist. Review the id_employee', code: 404});//404
   }
 
   //extraigo el id del EMPLEDO pasado como param dinámico en ruta, cuyos assets asociados quiero ENCONTRAR
@@ -225,7 +221,7 @@ try{
   {
     return res.json({ message: 'The employee have not any asset' }); 
   }
-    res.json({ data: employeeWithAssets });
+    res.status(200).json({ data: employeeWithAssets });
 }
 catch(err){
   const error = new HttpError(
