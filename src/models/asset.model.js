@@ -40,7 +40,7 @@ const deleteAsset = async (id_asset) => {
   const result = await connectiondb.query(sqlQuery).spread((result) => result);
   return result;
 };
-//UPDATE
+//UPDATE ASSET
 const updateAsset = async (asset, values) => {
   //saque a id_employee
   const {name, type, code, marca, description, purchase_date, id_employee} = values;
@@ -58,6 +58,15 @@ const updateAsset = async (asset, values) => {
     ]).spread((result) => result);
   return result;
 };
+
+//UPDATE ASSETS BY EMPLOYEE ID
+
+const updateAllAssetsByEmployeeId = async (employeeId) => {
+  const sql = `UPDATE assets SET id_employee=null WHERE id_employee = ${employeeId}`;
+  const result = await connectiondb.query(sql).spread((result) => result);
+  return result;
+}
+
 //EXPORTS
 module.exports = {
   getAllAssets,
@@ -66,4 +75,5 @@ module.exports = {
   deleteAsset,
   updateAsset,
   getAssetsByEmployeeId,
+  updateAllAssetsByEmployeeId
 };

@@ -2,6 +2,7 @@
 const { query } = require("express");
 const connectiondb = require("../config/db.config");
 const conexion = require("../config/db.config");
+const AssetsModel = require("../models/asset.model");
 const EmployeesModel = require("../models/employee.model");
 const HttpError = require('../customError/customError');
 
@@ -95,30 +96,53 @@ try{
 //DELETE!
 const deleteEmployee = async (req, res, next) => {
   //OPCION 1: ELIMINO LOS ASSETS VINCULADOS AL EMPLEADO A ELIMINAR, Y LUEGO A ESTE EMPLEADO
-  try{
+  // try{
+  // //extraigo el id del empleado a eliminar
+  // const employeeId= req.params.id_employee;
+  // //encuentro el objeto EMPLOYEE a eliminar
+  // const employee=await EmployeesModel.getEmployeeById(employeeId)
+  // if(!employee) {
+  //   return res.json({message:'The employee whose you want delete doesnt exists. Review'});
+  // }
+  //  const result = await EmployeesModel.deleteEmployee(employeeId);
+  // res.status(200).json({ message: "the employee was deleted succesfully!" });
+  // }catch (err) {
+  //   const error = new HttpError(
+  //     'The operation "delete employee" failed, please try again later.',
+  //     401
+  //   );
+  //   return next(error);
+  // }
+
+
+//PENDIENTES: HACER ESTA OPCION 2 DEL DELETE DE EMPLEADOS Y POR OTRO LADO QUE EL CUIT EN BD SEA UNIQUE
+//OPCION 2: COMO LA FK DE LA TABLA EN LA BD ACEPTA NULOS, AL BORRAR EL EMPLEADO LE HAGO DOS CONSULTAS: 
+//1) UNA QUE ELIMINE PREVIAMENTE LA/S RELACION/ES //(REALIZANDO UPDATE DE TODOS LOS ASSETS QUE TENGAN ESE ID DEL EMPLOYEE)
+// 2) Y MODIFICAR SU VALOR A NULO. Y POSTERIOR A ELLO: LA ELIM DEL EMPLOYEE
+
+ try{
   //extraigo el id del empleado a eliminar
   const employeeId= req.params.id_employee;
   //encuentro el objeto EMPLOYEE a eliminar
-  const employee=await EmployeesModel.getEmployeeById(employeeId)
+    const employee=await EmployeesModel.getEmployeeById(employeeId)
   if(!employee) {
-    return res.json({message:'The employee whose you want delete doesnt exists. Review'});
+    return res.status(404).json({message:'The employee whose you want delete doesnt exists. Review'});
   }
-   const result = await EmployeesModel.deleteEmployee(employeeId);
-  res.status(200).json({ message: "the employee was deleted succesfully!" });
-  }catch (err) {
+  //el objeto employee a eliminar tiene algun asset asociado? 
+  const assetByEmployee = await AssetsModel.getAssetsByEmployeeId(employeeId)
+  //si tiene assets asociados este empleado, hacemos la baja logica de la relac.(id_employee=null)
+if(assetByEmployee.length>=1) 
+{await AssetsModel.updateAllAssetsByEmployeeId(employeeId)}
+ await EmployeesModel.deleteEmployee(employeeId);
+res.status(200).json({ message: "the employee was deleted succesfully!" });
+  } catch (err) {
     const error = new HttpError(
       'The operation "delete employee" failed, please try again later.',
       401
     );
     return next(error);
   }
-//PENDIENTES: HACER ESTA OPCION 2 DEL DELETE DE EMPLEADOS Y POR OTRO LADO QUE EL CUIT EN BD SEA UNIQUE
-//OPCION 2: COMO LA FK DE LA TABLA EN LA BD ACEPTA NULOS, AL BORRAR EL EMPLEADO LE HAGO DOS CONSULTAS: 
-//1) UNA QUE ELIMINE PREVIAMENTE LA/S RELACION/ES //(REALIZANDO UPDATE DE TODOS LOS ASSETS QUE TENGAN ESE ID DEL EMPLOYEE)
-// 2) Y MODIFICAR SU VALOR A NULO. Y POSTERIOR A ELLO: LA ELIM DEL EMPLOYEE
-
 };
-
 
 //UPDATE
 const updateEmployee = async (req, res, next) => {

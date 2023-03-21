@@ -36,20 +36,23 @@ const createEmployee = async (values) => {
 //DELETE
 const deleteEmployee = async (id_employee) => {
   try {
-    
+    //SI SIGO LA OPCION 1 DE ELIMINAR FISICAMENTE LOS ASSETS ASOCIADOS AL EMPLEADO ENTONCES:
   // Eliminar el registro de la tabla secundaria (assets)que tiene la clave externa correspondiente
-  const resultQuery1 = await connectiondb.query('DELETE FROM assets WHERE id_employee = ?', [id_employee]).spread((result) => result);
+  //const resultQuery1 = await connectiondb.query('DELETE FROM assets WHERE id_employee = ?', [id_employee]).spread((result) => result);
+
+  //SI SIGO LA OPCION 2: HACER BAJA LOGICA DE LA RELACION ENTRE EMPLEADOS Y ASSETS ASOCIADOS
 // Eliminar el registro de la tabla principal(employees)
   const sqlQuery2 = `DELETE FROM employees WHERE id_employee = ${id_employee}`;
   const resultQuery2 = await connectiondb.query(sqlQuery2).spread((result) => result);
   // Verificar si se eliminaron los registros correctamente
-  if (resultQuery1[0].affectedRows === 1 && resultQuery2[0].affectedRows === 1) {
-    console.log('Los registros fueron eliminados correctamente');
-  } else {
-    console.log('No se pudieron eliminar los registros');
-  }
+  //if (resultQuery1[0].affectedRows === 1 && resultQuery2[0].affectedRows === 1) {
+  //  console.log('Los registros fueron eliminados correctamente');
+  //} else {
+  //  console.log('No se pudieron eliminar los registros');
+ // }
 
-     return resultQuery1,resultQuery2;
+ //    return resultQuery1,resultQuery2;
+ return resultQuery2;
   } catch (error) {
 
   console.error('Error al eliminar los registros:', error);
