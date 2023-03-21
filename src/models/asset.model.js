@@ -22,8 +22,10 @@ const getAssetsByEmployeeId = async (id_employee) => {
 };
 //CREATE
 const createAsset = async (values) => {
-  const { name, type, code, marca, description, purchase_date, id_employee } = values;
-  const result = await connectiondb.query(
+  const { name, type, code, marca, description, purchase_date, id_employee } =
+    values;
+  const result = await connectiondb
+    .query(
       "INSERT INTO assets(name, type, code, marca, description, purchase_date, id_employee) values(?,?,?,?,?,?,?)",
       [name, type, code, marca, description, purchase_date, id_employee]
     )
@@ -43,29 +45,32 @@ const deleteAsset = async (id_asset) => {
 //UPDATE ASSET
 const updateAsset = async (asset, values) => {
   //saque a id_employee
-  const {name, type, code, marca, description, purchase_date, id_employee} = values;
-  console.log('SOY ASSET',asset);
-  console.log('SOY VALUES', values)//saqué de la sig query el id_empoyee=?
+  const { name, type, code, marca, description, purchase_date, id_employee } =
+    values;
+  console.log("SOY ASSET", asset);
+  console.log("SOY VALUES", values); //saqué de la sig query el id_empoyee=?
   const sql = `UPDATE assets SET name=?, type=?, code=?, marca=?, description=?, purchase_date=?, id_employee=? WHERE id_asset=${asset.id_asset}`;
-  const result = await connectiondb.query(sql,[
-      name ? name:asset.name,
-      type ? type:asset.type,
-      code ? code:asset.code,
-      marca ? marca:asset.marca,
-      description ? description:asset.description,
-      purchase_date ? purchase_date:asset. purchase_date,
-      id_employee ? id_employee:asset.id_employee
-    ]).spread((result) => result);
+  const result = await connectiondb
+    .query(sql, [
+      name ? name : asset.name,
+      type ? type : asset.type,
+      code ? code : asset.code,
+      marca ? marca : asset.marca,
+      description ? description : asset.description,
+      purchase_date ? purchase_date : asset.purchase_date,
+      id_employee ? id_employee : asset.id_employee,
+    ])
+    .spread((result) => result);
   return result;
 };
 
 //UPDATE ASSETS BY EMPLOYEE ID
 
-const updateAllAssetsByEmployeeId = async (employeeId) => {
+const resetEmployeeFKByIdEmployee = async (employeeId) => {
   const sql = `UPDATE assets SET id_employee=null WHERE id_employee = ${employeeId}`;
   const result = await connectiondb.query(sql).spread((result) => result);
   return result;
-}
+};
 
 //EXPORTS
 module.exports = {
@@ -75,5 +80,5 @@ module.exports = {
   deleteAsset,
   updateAsset,
   getAssetsByEmployeeId,
-  updateAllAssetsByEmployeeId
+  resetEmployeeFKByIdEmployee,
 };

@@ -1,7 +1,7 @@
 // dependencias
 const express = require("express");
 const cors = require("cors");
-require ("dotenv").config();
+require("dotenv").config();
 
 // import de routes
 const assetsRouter = require("./src/routes/asset.route");
@@ -15,7 +15,6 @@ const PORT = process.env.API_PORT || 3000;
 app.use(cors());
 //middleware global, para recibir body de formato json
 app.use(express.json({ limit: "50mb" }));
-
 
 //end point inicial, con el router
 app.use("/api/assets", assetsRouter);
