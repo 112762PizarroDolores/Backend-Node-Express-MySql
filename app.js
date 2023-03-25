@@ -9,7 +9,7 @@ const employeesRouter = require("./src/routes/employee.route");
 
 // Variables & App
 const app = express();
-const PORT = process.env.API_PORT || 3000;
+const PORT = process.env.API_PORT ||3001;
 
 //middleware global, pra resolver error cors
 app.use(cors());
@@ -18,7 +18,7 @@ app.use(express.json({ limit: "50mb" }));
 
 //end point inicial, con el router
 app.use("/api/assets", assetsRouter);
-app.use("/api/employees", employeesRouter); //http://localhost:3000/api/employee
+app.use("/api/employees", employeesRouter); //http://localhost:3001/api/employee
 
 // endpoint de error cuando se ingresa a una ruta que no existe
 app.set("title", "The page is not available, please review");
