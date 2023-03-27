@@ -6,7 +6,7 @@ const validateCreateAsset = [
   check("code").exists().notEmpty(),
   check("marca").exists().notEmpty(),
   check("description").exists().notEmpty(),
-  check("purchase_date").exists().notEmpty().isISO8601().withMessage("purchase date, cannot be empty. Format has to be YYYY-MM-DD"),//formateo fecha
+  check("purchase_date").exists().notEmpty().isISO8601().withMessage("purchase date, cannot be empty. Format has to be YYYY-MM-DD"),//formateo
   check("id_employee").exists().notEmpty(),
   (req, res, next) => {
     validateResult(req, res, next);
