@@ -156,7 +156,8 @@ const updateAsset = async (req, res, next) => {
       const employee = await EmployeesModel.getEmployeeById(id_employee);
       //si no existe no lo dejes continuar y devolveme un msj de error
       if (!employee) {
-        return res.json({
+        // return res.status(404).json({message: "the employee doesnt exists."});
+        return res.status(404).json({
           message:
             "the employee whose you want insert doesnt exists, please review.",
           code: 404,
