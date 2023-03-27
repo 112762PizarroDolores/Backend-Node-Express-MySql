@@ -25,7 +25,7 @@ const validateUpdateEmployee = [
     .isLength({ min: 11, max: 13 })
     .withMessage("This is a not valid cuit, review the length"),
   check("team_id").optional().notEmpty(),
-  check("join_date").optional().notEmpty().isISO8601().withMessage("join date, cannot be empty. Format has to be YYYY-MM-DD"),
+  check("join_date").optional().notEmpty().isISO8601().withMessage("join date, cannot be empty. Format has to be YYYY-MM-DD"),//formateo fecha
   check("rol").optional().notEmpty(),
   (req, res, next) => {
     validateResult(req, res, next);
