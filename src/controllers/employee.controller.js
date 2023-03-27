@@ -55,12 +55,12 @@ const getAllEmployees = async (req, res, next) => {
         where += ` AND rol='${rol}'`;
       }
     }
-    limite = `LIMIT 25`;
+    // limite = `LIMIT 100`;
     //QUERY PARA EL GET CON TODOS LOS PARAMS PARA FILTRAR, ORDENAR Y PAGINAR
     const empleados = await EmployeesModel.getAllEmployees(
       where,
-      ordenar + direction,
-      limite
+      ordenar + direction
+      // limite
     );
     res.json({ data: empleados });
   } catch (err) {

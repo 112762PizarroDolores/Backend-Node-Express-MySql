@@ -1,9 +1,9 @@
 const connectiondb = require("../config/db.config");
 
 //GET ALL EMPLOYEES
-
-const getAllEmployees = async (where, ordenar, limite) => {
-  const params = `${where} ${ordenar} ${limite}`;
+//extraigo de parametros al  limite y de la const params ${limite}
+const getAllEmployees = async (where, ordenar) => {
+  const params = `${where} ${ordenar} `;
 
   const rows = await connectiondb
     .query(`SELECT * FROM employees ${params}`)

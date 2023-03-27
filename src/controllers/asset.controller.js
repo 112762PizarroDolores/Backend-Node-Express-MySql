@@ -61,12 +61,12 @@ const getAllAssets = async (req, res, next) => {
         where += ` AND id_employee=${id_employee}`;
       }
     }
-    limite = `LIMIT 25`;
+    // limite = `LIMIT 25`;
     //QUERY PARA EL GET CON TODOS LOS PARAMS PARA FILTRAR, ORDENAR Y PAGINAR
     const assets = await AssetsModel.getAllAssets(
       where,
-      ordenar + direction,
-      limite
+      ordenar + direction
+      // limite
     );
     res.json({ data: assets });
   } catch (err) {
